@@ -5,4 +5,5 @@ include_directories(./include)
 add_subdirectory(0_hello_world)
 add_subdirectory(1_check_dimension)
 add_subdirectory(2_grid_block)
+add_subdirectory(3_sum_arrays)
 
