@@ -1,0 +1,27 @@
+repos:
+# -   repo: https://github.com/pre-commit/pre-commit-hooks
+#     rev: v2.3.0
+#     hooks:
+#     -   id: check-yaml
+#     -   id: end-of-file-fixer
+#     -   id: trailing-whitespace
+-   repo: local
+    hooks:
+    -   id: yapf
+        name: YAPF Formatter
+        language: python
+        entry: yapf
+        args: [-i, -p, --verbose]  # format but not add
+        types: [python]
+        require_serial: false
+    -   id: clang-format
+        name: clang-format
+        entry: clang-format
+        language: python
+        'types_or': [c++, c, cuda]
+        args: [-i, "-style=file"]
+
+# -   repo: https://github.com/pre-commit/mirrors-yapf
+#     rev: v0.30.0
+#     hooks:
+#       - id: yapf

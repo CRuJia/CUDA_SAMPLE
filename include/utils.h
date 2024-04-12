@@ -3,14 +3,14 @@
 
 #include <stdio.h>
 
-#define CHECK(call)                                                            \
-  {                                                                            \
-    const cudaError_t error = call;                                            \
-    if (error != cudaSuccess) {                                                \
-      printf("ERROR: %s:%d", __FILE__, __LINE__);                              \
-      printf("code:%d, reason:%s", error, cudaGetErrorString(error));          \
-      exit(1);                                                                 \
-    }                                                                          \
+#define CHECK(call)                                                   \
+  {                                                                   \
+    const cudaError_t error = call;                                   \
+    if (error != cudaSuccess) {                                       \
+      printf("ERROR: %s:%d", __FILE__, __LINE__);                     \
+      printf("code:%d, reason:%s", error, cudaGetErrorString(error)); \
+      exit(1);                                                        \
+    }                                                                 \
   }
 
 void initialData(float *ip, int size) {
@@ -34,4 +34,4 @@ void checkResult(float *hostRef, float *gpuRef, const int N) {
   printf("Check result success!\n");
 }
 
-#endif // UTILS_H
+#endif  // UTILS_H
