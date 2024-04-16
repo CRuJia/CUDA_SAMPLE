@@ -12,16 +12,18 @@ void sumArrays(float *a, float *b, float *res, const int size) {
   }
 }
 
-__global__ void sumArraysGpu(float *a, float *b, float *res) {
+__global__ void sumArraysGpu(float *a, float *b, float *res, int N) {
   int i = blockIdx.x * blockDim.x + threadIdx.x;
-  res[i] = a[i] + b[i];
+  if (i < N) {
+    res[i] = a[i] + b[i];
+  }
 }
 
 int main(int argc, char **argv) {
-  int dev = 0;
-  cudaSetDevice(dev);
+  // set up device
+  initDevice(0);
 
-  int nElem = 1 << 14;
+  int nElem = 1 << 24;
   printf("vector size: %d\n", nElem);
   int nByte = sizeof(float) * nElem;
   float *a_h = (float *)malloc(nByte);
@@ -42,16 +44,22 @@ int main(int argc, char **argv) {
   CHECK(cudaMemcpy(a_d, a_h, nByte, cudaMemcpyHostToDevice));
   CHECK(cudaMemcpy(b_d, b_h, nByte, cudaMemcpyHostToDevice));
 
-  dim3 block(1024);
+  dim3 block(512);
   dim3 grid(nElem / block.x);
-  sumArraysGpu<<<grid, block>>>(a_d, b_d, res_d);
-  printf("Execution configuration<<<%d,%d>>>\n", grid.x, block.x);
+
+  // timer
+  double iStart, iElaps;
+  iStart = cpuSecond();
+  sumArraysGpu<<<grid, block>>>(a_d, b_d, res_d, nElem);
 
   CHECK(cudaMemcpy(res_from_gpu_h, res_d, nByte, cudaMemcpyDefault));
+  iElaps = cpuSecond() - iStart;
+  printf("Execution configuration<<<%d,%d>>> Time elapsed %f sec\n", grid.x,
+         block.x, iElaps);
+
   sumArrays(a_h, b_h, res_h, nElem);
 
   checkResult(res_h, res_from_gpu_h, nElem);
-
   cudaFree(a_d);
   cudaFree(b_d);
   cudaFree(res_d);
