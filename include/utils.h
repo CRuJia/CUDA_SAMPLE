@@ -73,4 +73,17 @@ void checkResult(float *hostRef, float *gpuRef, const int N) {
   printf("Check result success!\n");
 }
 
+void printMaxtrix(float *A, const int nx, const int ny) {
+  float *ic = A;
+  printf("Matrix<%d,%d>:\n", nx, ny);
+  for (int i = 0; i < ny; i++) {
+    for (int j = 0; j < nx; j++) {
+      printf("%6f ", ic[j]);
+    }
+    ic += nx;
+    printf("\n");
+  }
+  printf("\n");
+}
+
 #endif  // UTILS_H
