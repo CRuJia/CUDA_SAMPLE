@@ -11,3 +11,8 @@ cmake ../
 make
 ./0_hello_world/hello_world
 ```
+
+使用ncu查看报告
+```
+ncu ./xxx # xxx为可执行程序
+```

@@ -1,0 +1,1 @@
+add_executable(device_infomation device_infomation)

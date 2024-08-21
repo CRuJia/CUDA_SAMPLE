@@ -44,7 +44,9 @@ int main(int argc, char **argv) {
   CHECK(cudaMemcpy(a_d, a_h, nByte, cudaMemcpyHostToDevice));
   CHECK(cudaMemcpy(b_d, b_h, nByte, cudaMemcpyHostToDevice));
 
-  dim3 block(512);
+  // dim3 block(256); // 405.34 us
+  // dim3 block(512); // 414.75 us
+  dim3 block(1024); // 520.32 us
   dim3 grid(nElem / block.x);
 
   // timer
