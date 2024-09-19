@@ -52,6 +52,14 @@ void initialData(float *ip, int size) {
   }
 }
 
+void initialData_int(int *ip, int size) {
+  time_t t;
+  srand((unsigned)time(&t));
+  for (int i = 0; i < size; i++) {
+    ip[i] = int(rand() & 0xff);
+  }
+}
+
 void initDevice(int devNum) {
   int dev = devNum;
   cudaDeviceProp deviceprop;
